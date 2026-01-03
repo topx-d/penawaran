@@ -1,11 +1,3 @@
-<!-- 
-PLAN SUMMARY:
-1. Menambahkan "Branding (Logo & Visual Identity)" ke dalam daftar Third-Party.
-2. Mempertahankan struktur navigasi, grafik, dan skema warna asli.
-3. Menjaga anotasi pada grafik Time-to-Market Efficiency tetap ada.
-4. Optimalisasi tampilan mobile tetap dipertahankan.
--->
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -39,25 +31,20 @@ PLAN SUMMARY:
         }
 
         .glass-card:hover {
-            border-color: #F97316;
+            border-color: #ea580c;
             transform: translateY(-8px);
-            box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.1);
         }
 
         .step-number {
-            -webkit-text-stroke: 1.5px #F97316;
+            -webkit-text-stroke: 1.5px #ea580c;
             color: transparent;
             font-weight: 800;
             transition: 0.3s ease;
         }
 
-        .glass-card:hover .step-number {
-            color: rgba(249, 115, 22, 0.1);
-            transform: scale(1.1);
-        }
-        
         .step-badge {
-            background: #F97316;
+            background: #ea580c;
             color: white;
             font-size: 10px;
             font-weight: 800;
@@ -67,7 +54,7 @@ PLAN SUMMARY:
         }
 
         .stat-badge {
-            background: #0F172A;
+            background: #020617;
             color: white;
             padding: 1rem;
             border-radius: 12px;
@@ -75,25 +62,38 @@ PLAN SUMMARY:
             transition: 0.3s;
         }
 
-        /* SVG ANIMATIONS */
-        @keyframes svgPulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
+        .lang-btn.active {
+            background-color: white;
+            color: #020617;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        svg {
-            animation: svgPulse 3s infinite ease-in-out;
+        .progress-line-bg {
+            height: 2px;
+            background: #f1f5f9;
+            position: absolute;
+            top: 24px;
+            left: 10%;
+            right: 10%;
+            z-index: 0;
+        }
+        .progress-line-fill {
+            height: 2px;
+            background: #ea580c;
+            width: 0%;
+            position: absolute;
+            top: 24px;
+            left: 10%;
+            z-index: 1;
+            transition: width 3s ease-in-out;
         }
 
         @media (max-width: 640px) {
             .mobile-p-reduction {
-                padding-top: 2rem !important;
-                padding-bottom: 2rem !important;
+                padding-top: 1.5rem !important;
+                padding-bottom: 1.5rem !important;
             }
-            .nav-text-hide {
-                display: none;
-            }
+            .progress-line-bg, .progress-line-fill { display: none; }
         }
     </style>
 
@@ -103,9 +103,9 @@ PLAN SUMMARY:
                 extend: {
                     colors: {
                         brand: {
-                            orange: '#F97316', 
-                            blue: '#0F172A',
-                            soft: '#F9FAFB'
+                            orange: '#ea580c', 
+                            blue: '#020617',
+                            soft: '#f8fafc'
                         }
                     }
                 }
@@ -115,46 +115,51 @@ PLAN SUMMARY:
 </head>
 <body class="antialiased">
 
-    <!-- NAV -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <!-- Back Button -->
-                <button onclick="window.history.back()" class="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Kembali">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="/" class="sm:hidden flex items-center text-gray-500 hover:text-brand-blue transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
                     </svg>
-                </button>
+                </a>
                 
-                <!-- Logo -->
-                <div class="flex items-center space-x-2">
-                    <div class="w-7 h-7 bg-brand-orange rounded flex items-center justify-center text-white font-bold italic text-sm">B</div>
-                    <span class="font-extrabold tracking-tighter text-lg text-brand-blue uppercase nav-text-hide">Braindev.</span>
+                <div class="flex flex-col -space-y-1">
+                    <h1 class="font-black text-xl md:text-2xl text-brand-blue tracking-tighter uppercase leading-none">
+                        BRAIN<span class="text-brand-orange">DEV</span>
+                    </h1>
+                    <span class="text-[8px] font-bold text-gray-400 tracking-[0.3em] uppercase ml-0.5">Development</span>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-2 md:space-x-4">
-                <!-- Language Switcher -->
-                <div class="flex bg-gray-100 p-1 rounded-lg text-[10px] font-bold uppercase tracking-tight">
-                    <button class="px-3 py-1.5 bg-white text-brand-blue shadow-sm rounded-md">ID</button>
-                    <button class="px-3 py-1.5 text-gray-400 hover:text-gray-600">EN</button>
+            <div class="flex items-center space-x-3">
+                <div id="language-switcher" class="flex bg-gray-100 p-1 rounded-xl text-[10px] font-black uppercase tracking-tight">
+                    <button onclick="changeLanguage('id')" id="lang-id" class="lang-btn active px-4 py-1.5 rounded-lg transition-all duration-200">ID</button>
+                    <button onclick="changeLanguage('en')" id="lang-en" class="lang-btn px-4 py-1.5 text-gray-400 hover:text-gray-600 rounded-lg transition-all duration-200">EN</button>
                 </div>
                 
-                <div class="hidden sm:block text-[9px] font-bold tracking-[0.2em] text-gray-500 uppercase bg-gray-50 px-3 py-1 rounded-full border border-gray-200">
+                <div class="hidden md:block text-[9px] font-bold tracking-[0.2em] text-gray-500 uppercase bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
                     SOP v2.5
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <header class="pt-10 pb-12 px-5 mobile-p-reduction text-center">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-brand-blue mb-4 tracking-tight leading-[1.1]">
-                Framework <span class="text-brand-orange">Pengembangan</span> Bisnis.
-            </h1>
-            <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-medium">
-                Metodologi sistematis untuk efisiensi modal dan standarisasi operasional.
+    <!-- HEADER BRANDING -->
+    <header class="pt-16 pb-16 px-5 text-center bg-white">
+        <div class="max-w-4xl mx-auto space-y-5">
+            <div class="inline-flex items-center space-x-2 bg-orange-50 px-4 py-1.5 rounded-full border border-orange-100 mb-2">
+                <span class="w-2 h-2 bg-brand-orange rounded-full animate-pulse"></span>
+                <span id="label-framework" class="text-[10px] font-bold text-brand-orange uppercase tracking-widest">Protocol Framework 2026</span>
+            </div>
+            <h2 id="main-title" class="text-4xl md:text-7xl font-black text-brand-blue tracking-tighter leading-[1] uppercase">
+                Sistemasi <br/>
+                <span class="text-brand-orange italic">& Standarisasi.</span>
+            </h2>
+            <p id="main-desc" class="text-sm md:text-base text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
+                Metodologi teknis untuk efisiensi modal, manajemen aset pihak ketiga, 
+                dan standarisasi operasional melalui pendekatan berbasis data.
             </p>
         </div>
     </header>
@@ -162,51 +167,56 @@ PLAN SUMMARY:
     <main class="max-w-6xl mx-auto px-5 pb-20 space-y-16">
 
         <!-- SECTION 1: JOURNEY -->
-        <section class="mobile-p-reduction">
+        <section class="mobile-p-reduction relative">
             <div class="flex flex-col items-center text-center mb-10">
-                <h2 class="text-xl font-bold text-brand-blue mb-1 uppercase tracking-wider">01. Alur Pengerjaan (Step-by-Step)</h2>
-                <div class="w-8 h-1 bg-brand-orange rounded-full"></div>
+                <h2 id="section1-title" class="text-xl font-black text-brand-blue mb-1 uppercase tracking-tighter">01. Alur Pengerjaan (Step-by-Step)</h2>
+                <div class="w-10 h-1 bg-brand-orange rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-                <div class="relative group cursor-pointer">
-                    <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">01</span>
-                    <div class="glass-card p-5 rounded-xl h-full relative z-10 flex flex-col">
-                        <div class="step-badge mb-3 w-fit">Step 01</div>
-                        <h3 class="font-bold text-gray-900 text-sm mb-1">Concept Discovery</h3>
-                        <p class="text-[11px] text-gray-600 font-medium">Penyelarasan visi bisnis dan identifikasi DNA brand unik.</p>
+            <div class="relative">
+                <div class="progress-line-bg"></div>
+                <div id="progress-fill" class="progress-line-fill"></div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
+                    <div class="relative group">
+                        <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">01</span>
+                        <div class="glass-card p-5 rounded-xl h-full flex flex-col">
+                            <div class="step-badge mb-3 w-fit">Step 01</div>
+                            <h3 id="step1-h" class="font-bold text-gray-900 text-sm mb-1">Concept Discovery</h3>
+                            <p id="step1-p" class="text-[11px] text-gray-600 font-medium">Penyelarasan visi bisnis dan identifikasi DNA brand unik.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="relative group cursor-pointer">
-                    <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">02</span>
-                    <div class="glass-card p-5 rounded-xl h-full relative z-10 flex flex-col">
-                        <div class="step-badge mb-3 w-fit">Step 02</div>
-                        <h3 class="font-bold text-gray-900 text-sm mb-1">Financial Feasibility</h3>
-                        <p class="text-[11px] text-gray-600 font-medium">Analisis mendalam rasio investasi vs potensi market.</p>
+                    <div class="relative group">
+                        <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">02</span>
+                        <div class="glass-card p-5 rounded-xl h-full flex flex-col">
+                            <div class="step-badge mb-3 w-fit">Step 02</div>
+                            <h3 id="step2-h" class="font-bold text-gray-900 text-sm mb-1">Financial Feasibility</h3>
+                            <p id="step2-p" class="text-[11px] text-gray-600 font-medium">Analisis mendalam rasio investasi vs potensi market.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="relative group cursor-pointer">
-                    <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">03</span>
-                    <div class="glass-card p-5 rounded-xl h-full relative z-10 flex flex-col">
-                        <div class="step-badge mb-3 w-fit">Step 03</div>
-                        <h3 class="font-bold text-gray-900 text-sm mb-1">Service Allocation</h3>
-                        <p class="text-[11px] text-gray-600 font-medium">Penentuan cakupan kerja sesuai kompleksitas skala.</p>
+                    <div class="relative group">
+                        <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">03</span>
+                        <div class="glass-card p-5 rounded-xl h-full flex flex-col">
+                            <div class="step-badge mb-3 w-fit">Step 03</div>
+                            <h3 id="step3-h" class="font-bold text-gray-900 text-sm mb-1">Service Allocation</h3>
+                            <p id="step3-p" class="text-[11px] text-gray-600 font-medium">Penentuan cakupan kerja sesuai kompleksitas skala.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="relative group cursor-pointer">
-                    <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">04</span>
-                    <div class="glass-card p-5 rounded-xl h-full relative z-10 flex flex-col">
-                        <div class="step-badge mb-3 w-fit">Step 04</div>
-                        <h3 class="font-bold text-gray-900 text-sm mb-1">Detailed Scoping</h3>
-                        <p class="text-[11px] text-gray-600 font-medium">Finalisasi rincian item pekerjaan & penguncian timeline.</p>
+                    <div class="relative group">
+                        <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">04</span>
+                        <div class="glass-card p-5 rounded-xl h-full flex flex-col">
+                            <div class="step-badge mb-3 w-fit">Step 04</div>
+                            <h3 id="step4-h" class="font-bold text-gray-900 text-sm mb-1">Detailed Scoping</h3>
+                            <p id="step4-p" class="text-[11px] text-gray-600 font-medium">Finalisasi rincian item pekerjaan & penguncian timeline.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="relative group cursor-pointer">
-                    <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">05</span>
-                    <div class="glass-card p-5 rounded-xl h-full relative z-10 border-green-200 bg-green-50/20 flex flex-col">
-                        <div class="step-badge !bg-green-600 mb-3 w-fit">Final Step</div>
-                        <h3 class="font-bold text-gray-900 text-sm mb-1">Kickoff & Build</h3>
-                        <p class="text-[11px] text-gray-600 font-medium">Eksekusi pembangunan fisik dan pelatihan sistem.</p>
+                    <div class="relative group">
+                        <span class="step-number text-4xl absolute -top-4 -left-1 opacity-20">05</span>
+                        <div class="glass-card p-5 rounded-xl h-full border-green-200 bg-green-50/20 flex flex-col">
+                            <div id="badge-final" class="step-badge !bg-green-600 mb-3 w-fit">Final Step</div>
+                            <h3 id="step5-h" class="font-bold text-gray-900 text-sm mb-1">Kickoff & Build</h3>
+                            <p id="step5-p" class="text-[11px] text-gray-600 font-medium">Eksekusi pembangunan fisik dan pelatihan sistem.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -216,63 +226,66 @@ PLAN SUMMARY:
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start mobile-p-reduction">
             <div class="space-y-6">
                 <div>
-                    <h2 class="text-xl font-bold text-brand-blue mb-2 uppercase tracking-wider">02. Investment Matrix</h2>
-                    <p class="text-sm text-gray-600 font-medium">Penentuan valuasi jasa berdasarkan skala pengerjaan.</p>
+                    <h2 id="section2-title" class="text-xl font-black text-brand-blue mb-2 uppercase tracking-tighter">02. Investment Matrix</h2>
+                    <p id="section2-desc" class="text-sm text-gray-500 font-medium">Penentuan valuasi jasa berdasarkan skala pengerjaan.</p>
                 </div>
                 
                 <div class="grid grid-cols-1 gap-3">
-                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-xl">
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4 shrink-0">
+                    <!-- Scale A -->
+                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-xl transition-all">
+                        <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mr-4 shrink-0">
                             <svg class="w-6 h-6 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                         </div>
                         <div class="flex-grow">
                             <div class="flex justify-between items-center">
                                 <h4 class="font-bold text-gray-900 text-sm">Scale A (Compact)</h4>
                                 <div class="text-right">
-                                    <span class="block text-[8px] uppercase font-black text-gray-400">Start From</span>
-                                    <span class="text-brand-orange font-extrabold text-lg leading-none">38jt</span>
+                                    <span class="label-start-from block text-[8px] uppercase font-black text-gray-400">Start From</span>
+                                    <span class="text-brand-orange font-extrabold text-xl leading-none">38jt</span>
                                 </div>
                             </div>
                             <div class="flex justify-between text-[9px] text-gray-400 mt-1 font-bold uppercase tracking-wider">
-                                <span><100m² • 10 Main Items</span>
+                                <span class="scale-info-a text-[8px]">Start from 10 Food + 10 Bev • 100m²</span>
                                 <span>Capex: 250jt+</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-xl">
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4 shrink-0">
+                    <!-- Scale B -->
+                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-xl transition-all">
+                        <div class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mr-4 shrink-0">
                             <svg class="w-6 h-6 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         </div>
                         <div class="flex-grow">
                             <div class="flex justify-between items-center">
                                 <h4 class="font-bold text-gray-900 text-sm">Scale B (Standard)</h4>
                                 <div class="text-right">
-                                    <span class="block text-[8px] uppercase font-black text-gray-400">Start From</span>
-                                    <span class="text-brand-orange font-extrabold text-lg leading-none">42jt</span>
+                                    <span class="label-start-from block text-[8px] uppercase font-black text-gray-400">Start From</span>
+                                    <span class="text-brand-orange font-extrabold text-xl leading-none">42jt</span>
                                 </div>
                             </div>
                             <div class="flex justify-between text-[9px] text-gray-400 mt-1 font-bold uppercase tracking-wider">
-                                <span>100-200m² • 15 Main Items</span>
+                                <span class="scale-info-b text-[8px]">Start from 15 Food + 15 Bev • 100-200m²</span>
                                 <span>Capex: 450jt+</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center p-4 bg-white border-2 border-brand-orange rounded-xl shadow-sm">
+                    <!-- Scale C -->
+                    <div class="flex items-center p-4 bg-white border-2 border-brand-orange rounded-xl shadow-md transition-all">
                         <div class="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center mr-4 shrink-0">
                             <svg class="w-6 h-6 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"></path></svg>
                         </div>
                         <div class="flex-grow">
                             <div class="flex justify-between items-center">
-                                <h4 class="font-bold text-brand-blue text-sm uppercase">Full Package</h4>
+                                <h4 id="label-fullpkg" class="font-black text-brand-blue text-sm uppercase italic">Scale C (Full)</h4>
                                 <div class="text-right">
-                                    <span class="block text-[8px] uppercase font-black text-gray-400">Start From</span>
-                                    <span class="text-brand-orange font-extrabold text-lg leading-none">54jt+</span>
+                                    <span class="label-start-from block text-[8px] uppercase font-black text-gray-400">Start From</span>
+                                    <span class="text-brand-orange font-black text-xl leading-none">54jt</span>
                                 </div>
                             </div>
                             <div class="flex justify-between text-[9px] text-gray-400 mt-1 font-bold uppercase tracking-wider">
-                                <span>Full Custom • Premium Items</span>
+                                <span class="scale-info-full">Custom Products • >200m²</span>
                                 <span>Capex: 600jt+</span>
                             </div>
                         </div>
@@ -283,15 +296,14 @@ PLAN SUMMARY:
             <!-- INFOGRAPHIC -->
             <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden">
                 <div class="mb-4">
-                    <h3 class="font-bold text-gray-900 text-sm">Time-to-Market Efficiency</h3>
-                    <p class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">Durasi Persiapan Hingga Grand Opening (Minggu)</p>
+                    <h3 id="chart-efficiency-title" class="font-black text-brand-blue text-sm uppercase italic">Time-to-Market Efficiency</h3>
+                    <p id="chart-efficiency-sub" class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">Durasi Persiapan Hingga Grand Opening (Minggu)</p>
                 </div>
                 <div class="chart-container">
                     <canvas id="timeEfficiencyChart"></canvas>
                 </div>
-                <!-- Annotation Description -->
-                <div class="mt-4 p-3 bg-blue-50/50 rounded-lg border border-blue-100">
-                    <p class="text-[10px] leading-relaxed text-blue-900 font-semibold italic">
+                <div class="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <p id="quote-efficiency" class="text-[10px] leading-relaxed text-brand-blue font-semibold italic">
                         "Protokol ini memangkas waktu trial-error hingga 60%. Dengan kurikulum knowledge transfer yang terstruktur, pemilik bisnis menghindari kerugian finansial akibat salah beli aset atau kegagalan operasional di bulan pertama."
                     </p>
                 </div>
@@ -300,33 +312,58 @@ PLAN SUMMARY:
 
         <!-- SECTION 3: FOCUS & THIRD PARTY -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mobile-p-reduction">
-            <!-- PILLAR CHART (Doughnut) -->
-            <div class="lg:col-span-2 bg-brand-soft rounded-[2rem] p-8 lg:p-14 overflow-hidden relative">
+            <div class="lg:col-span-2 bg-brand-soft rounded-[2rem] p-8 lg:p-14 overflow-hidden relative border border-slate-100">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
                     <div class="relative z-10">
-                        <h2 class="text-2xl font-black text-brand-blue mb-4">Pilar Pengembangan.</h2>
-                        <div class="space-y-6">
+                        <h2 id="pilar-title" class="text-3xl font-black text-brand-blue mb-6 tracking-tighter">Pilar Utama <br/><span class="text-brand-orange italic">Pengembangan.</span></h2>
+                        <div class="grid grid-cols-1 gap-5">
                             <div class="flex items-start">
-                                <div class="p-2.5 bg-white rounded-lg shadow-sm mr-4 shrink-0">
-                                    <svg class="w-5 h-5 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                <div class="p-2 bg-white rounded-lg shadow-sm mr-3 shrink-0 border border-slate-50">
+                                    <svg class="w-4 h-4 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-sm">Product Strategy & HPP (25%)</h4>
-                                    <p class="text-[11px] text-gray-500 font-medium">Recipe Engineering & Quality Control Standards.</p>
+                                    <h4 class="font-bold text-gray-900 text-[13px]">Product & HPP (25%)</h4>
+                                    <p id="pilar-desc1" class="text-[10px] text-gray-500 font-medium">Recipe Engineering & Quality Standards.</p>
                                 </div>
                             </div>
                             <div class="flex items-start">
-                                <div class="p-2.5 bg-white rounded-lg shadow-sm mr-4 shrink-0">
-                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                <div class="p-2 bg-white rounded-lg shadow-sm mr-3 shrink-0 border border-slate-50">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-sm">Operational Excellence (25%)</h4>
-                                    <p class="text-[11px] text-gray-500 font-medium">Recruitment & Competency-based Training.</p>
+                                    <h4 id="pilar-h2" class="font-bold text-gray-900 text-[13px]">Operational (25%)</h4>
+                                    <p id="pilar-desc2" class="text-[10px] text-gray-500 font-medium">Recruitment & Competency Training.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="p-2 bg-white rounded-lg shadow-sm mr-3 shrink-0 border border-slate-50">
+                                    <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 id="pilar-h3" class="font-bold text-gray-900 text-[13px]">Alat Bar & Kitchen (20%)</h4>
+                                    <p id="pilar-desc3" class="text-[10px] text-gray-500 font-medium">Kitchen Tools & Equipment Audit.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="p-2 bg-white rounded-lg shadow-sm mr-3 shrink-0 border border-slate-50">
+                                    <svg class="w-4 h-4 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 id="pilar-h4" class="font-bold text-gray-900 text-[13px]">Desain Spasial (25%)</h4>
+                                    <p id="pilar-desc4" class="text-[10px] text-gray-500 font-medium">Workflow & Ergonomic Layout Planning.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="p-2 bg-white rounded-lg shadow-sm mr-3 shrink-0 border border-slate-50">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                </div>
+                                <div>
+                                    <h4 id="pilar-h5" class="font-bold text-gray-900 text-[13px]">Sistem & Legal (5%)</h4>
+                                    <p id="pilar-desc5" class="text-[10px] text-gray-500 font-medium">SOP, Compliance & Opening Standards.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="relative">
                         <div class="chart-container !h-[320px]">
                             <canvas id="scopeChart"></canvas>
@@ -335,82 +372,51 @@ PLAN SUMMARY:
                 </div>
             </div>
 
-            <!-- THIRD PARTY (NOT INCLUDED) -->
+            <!-- THIRD PARTY -->
             <div class="bg-white border-2 border-gray-100 rounded-[2rem] p-8 shadow-sm">
-                <h3 class="text-lg font-black text-brand-blue mb-4 uppercase tracking-tighter">Third Party <span class="text-red-500">(Not Incl.)</span></h3>
-                <p class="text-[10px] text-gray-400 font-bold mb-6 uppercase">Biaya Eksternal & Vendor Pihak Ketiga</p>
-                
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
-                        <span class="text-[11px] font-bold text-gray-700">Branding (Logo & Visual Identity)</span>
-                        <span class="text-[10px] font-black text-brand-orange">DESIGNER</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
-                        <span class="text-[11px] font-bold text-gray-700">Pekerjaan Sipil/Interior</span>
-                        <span class="text-[10px] font-black text-brand-orange">VENDOR</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
-                        <span class="text-[11px] font-bold text-gray-700">Aset Mesin & Peralatan</span>
-                        <span class="text-[10px] font-black text-brand-orange">DIRECT</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
-                        <span class="text-[11px] font-bold text-gray-700">Bahan Baku Awal (Stock)</span>
-                        <span class="text-[10px] font-black text-brand-orange">SUPPLIER</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
-                        <span class="text-[11px] font-bold text-gray-700">Legalitas & Perizinan</span>
-                        <span class="text-[10px] font-black text-brand-orange">OSS/NOTARY</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-gray-50 pb-2">
-                        <span class="text-[11px] font-bold text-gray-700">Sewa Lahan & Deposit</span>
-                        <span class="text-[10px] font-black text-brand-orange">LANDLORD</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-bold text-gray-700">Budget Marketing Ads</span>
-                        <span class="text-[10px] font-black text-brand-orange">MEDIA</span>
-                    </div>
+                <h3 id="thirdparty-title" class="text-lg font-black text-brand-blue mb-4 uppercase tracking-tighter italic">Third Party <span class="text-red-500 not-italic">(Not Incl.)</span></h3>
+                <p id="thirdparty-sub" class="text-[10px] text-gray-400 font-bold mb-6 uppercase">Biaya Eksternal & Vendor Pihak Ketiga</p>
+                <div id="thirdparty-list" class="space-y-4">
+                    <!-- Dynamic List via JS -->
                 </div>
-
                 <div class="mt-8 pt-6 border-t border-dashed border-gray-200">
-                    <p class="text-[9px] text-gray-400 italic font-medium leading-relaxed">
+                    <p id="thirdparty-note" class="text-[9px] text-gray-400 italic font-medium leading-relaxed">
                         *Seluruh biaya third party dikelola secara transparan langsung oleh klien kepada vendor terkait. Braindev bertindak sebagai supervisi pemilihan vendor terbaik.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4: CAPITAL VALUE PROTECTION -->
+        <!-- SECTION 4: STATS -->
         <section class="mobile-p-reduction">
              <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm max-w-5xl mx-auto">
                 <div class="mb-8 text-center">
-                    <h3 class="font-bold text-gray-900 text-sm">Capital Value Protection</h3>
-                    <p class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">Fee Jasa vs Nilai Asset & Modal Yang Terproteksi</p>
+                    <h3 id="chart-value-title" class="font-black text-brand-blue text-sm uppercase italic">Capital Value Protection</h3>
+                    <p id="chart-value-sub" class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">Fee Jasa vs Nilai Asset & Modal Yang Terproteksi</p>
                 </div>
-                
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                     <div class="lg:col-span-2 chart-container">
                         <canvas id="valueComparisonChart"></canvas>
                     </div>
-                    
                     <div class="space-y-4">
                         <div class="stat-badge flex items-center justify-between hover:scale-105 transition-transform duration-300">
                             <div class="text-left">
                                 <span class="block text-2xl font-black text-brand-orange rolling-number" data-target="19">0</span>
-                                <span class="text-[9px] uppercase font-bold text-gray-400">Happy Clients</span>
+                                <span id="stat-clients" class="text-[9px] uppercase font-bold text-gray-400">Happy Clients</span>
                             </div>
                             <svg class="w-8 h-8 opacity-20" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3.005 3.005 0 013.75-2.906z"></path></svg>
                         </div>
                         <div class="stat-badge flex items-center justify-between hover:scale-105 transition-transform duration-300">
                             <div class="text-left">
                                 <span class="block text-2xl font-black text-brand-orange rolling-number" data-target="100">0</span>
-                                <span class="text-[9px] uppercase font-bold text-gray-400">Barista Trained</span>
+                                <span id="stat-trained" class="text-[9px] uppercase font-bold text-gray-400">Barista Trained</span>
                             </div>
                             <svg class="w-8 h-8 opacity-20" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </div>
                         <div class="stat-badge flex items-center justify-between hover:scale-105 transition-transform duration-300">
                             <div class="text-left">
                                 <span class="block text-2xl font-black text-brand-orange rolling-number" data-target="50">0</span>
-                                <span class="text-[9px] uppercase font-bold text-gray-400">Signature Menus</span>
+                                <span id="stat-menu" class="text-[9px] uppercase font-bold text-gray-400">Signature Menus</span>
                             </div>
                             <svg class="w-8 h-8 opacity-20" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
                         </div>
@@ -421,14 +427,246 @@ PLAN SUMMARY:
 
         <!-- FOOTER -->
         <footer class="text-center py-12 border-t border-gray-100 mobile-p-reduction">
-            <h2 class="text-3xl font-black text-brand-blue mb-4 leading-tight">Investasi Aman, Bisnis Terukur.</h2>
-            <button class="px-8 py-3 bg-brand-blue text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange transition-colors">Contact Braindev.</button>
+            <h2 id="footer-tagline" class="text-3xl font-black text-brand-blue mb-4 leading-tight italic tracking-tighter uppercase">Investasi Aman, Bisnis Terukur.</h2>
+            <button id="btn-contact" onclick="openWA()" class="px-10 py-4 bg-brand-blue text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange transition-all shadow-lg hover:shadow-orange-200">Hubungi Braindev.</button>
         </footer>
-
     </main>
 
     <script>
-        // --- CHART.JS PLUGINS ---
+        const translations = {
+            id: {
+                labelFramework: "Protocol Framework 2026",
+                mainTitle: 'Sistemasi <br/><span class="text-brand-orange italic">& Standarisasi.</span>',
+                mainDesc: "Metodologi teknis untuk efisiensi modal, manajemen aset pihak ketiga, dan standarisasi operasional melalui pendekatan berbasis data.",
+                section1Title: "01. Alur Pengerjaan (Step-by-Step)",
+                step1H: "Concept Discovery",
+                step1P: "Penyelarasan visi bisnis dan identifikasi DNA brand unik.",
+                step2H: "Financial Feasibility",
+                step2P: "Analisis mendalam rasio investasi vs potensi market.",
+                step3H: "Service Allocation",
+                step3P: "Penentuan cakupan kerja sesuai kompleksitas skala.",
+                step4H: "Detailed Scoping",
+                step4P: "Finalisasi rincian item pekerjaan & penguncian timeline.",
+                step5H: "Kickoff & Build",
+                step5P: "Eksekusi pembangunan fisik dan pelatihan sistem.",
+                badgeFinal: "Langkah Akhir",
+                section2Title: "02. Investment Matrix",
+                section2Desc: "Penentuan valuasi jasa berdasarkan skala pengerjaan.",
+                labelStartFrom: "Mulai Dari",
+                scaleInfoA: "Start from 10 Food + 10 Bev • 100m²",
+                scaleInfoB: "Start from 15 Food + 15 Bev • 100-200m²",
+                scaleInfoFull: "Custom Products • >200m²",
+                labelFullPkg: "Scale C (Full Package)",
+                chartEfficiencyTitle: "Efisiensi Time-to-Market",
+                chartEfficiencySub: "Durasi Persiapan Hingga Grand Opening (Minggu)",
+                quoteEfficiency: '"Protokol ini memangkas waktu trial-error hingga 60%. Dengan kurikulum knowledge transfer yang terstruktur, pemilik bisnis menghindari kerugian finansial akibat salah beli aset atau kegagalan operasional di bulan pertama."',
+                pilarTitle: 'Pilar Utama <br/><span class="text-brand-orange italic">Pengembangan.</span>',
+                pilarDesc1: "Rekayasa Resep & Standar Kontrol Kualitas.",
+                pilarH2: "Operasional & SDM (25%)",
+                pilarDesc2: "Rekrutmen & Pelatihan Berbasis Kompetensi.",
+                pilarH3: "Alat Bar & Kitchen (20%)",
+                pilarDesc3: "Audit Alat Kitchen & Equipment Audit.",
+                pilarH4: "Desain Spasial (25%)",
+                pilarDesc4: "Alur Workflow & Perencanaan Layout Ergonomis.",
+                pilarH5: "Sistem & Legal (5%)",
+                pilarDesc5: "SOP, Kepatuhan & Opening Standards.",
+                thirdpartyTitle: 'Pihak Ketiga <span class="text-red-500 not-italic">(Tidak Termasuk)</span>',
+                thirdpartySub: "Biaya Eksternal & Vendor Pihak Ketiga",
+                thirdpartyNote: "*Seluruh biaya third party dikelola secara transparan langsung oleh klien kepada vendor terkait. Braindev bertindak sebagai supervisi pemilihan vendor terbaik.",
+                chartValueTitle: "Perlindungan Nilai Modal",
+                chartValueSub: "Fee Jasa vs Nilai Asset & Modal Yang Terproteksi",
+                statClients: "Klien Puas",
+                statTrained: "Barista Terlatih",
+                statMenu: "Menu Andalan",
+                footerTagline: "Investasi Aman, Bisnis Terukur.",
+                btnContact: "Hubungi Braindev.",
+                thirdpartyList: [
+                    { name: "Branding (Logo & Visual)", vendor: "Desainer" },
+                    { name: "Pekerjaan Sipil/Interior", vendor: "Vendor" },
+                    { name: "Aset Mesin & Peralatan", vendor: "Langsung" },
+                    { name: "Bahan Baku Awal (Stock)", vendor: "Supplier" },
+                    { name: "Legalitas & Perizinan", vendor: "OSS/Notaris" },
+                    { name: "Sewa Lahan & Deposit", vendor: "Pemilik Lahan" },
+                    { name: "Anggaran Iklan Marketing", vendor: "Media" }
+                ],
+                chartLabels: {
+                    efficiency: ['Mulai', 'Survei', 'Konsep', 'Bangun', 'Buka'],
+                    matrix: ['Skala A', 'Skala B', 'Skala C']
+                }
+            },
+            en: {
+                labelFramework: "Protocol Framework 2026",
+                mainTitle: 'Systemization <br/><span class="text-brand-orange italic">& Standardization.</span>',
+                mainDesc: "Technical methodology for capital efficiency, third-party asset management, and operational standardization through data-driven approaches.",
+                section1Title: "01. Workflow (Step-by-Step)",
+                step1H: "Concept Discovery",
+                step1P: "Alignment of business vision and identification of unique brand DNA.",
+                step2H: "Financial Feasibility",
+                step2P: "In-depth analysis of investment ratios vs market potential.",
+                step3H: "Service Allocation",
+                step3P: "Determining work scope based on scale complexity.",
+                step4H: "Detailed Scoping",
+                step4P: "Finalization of work item details & timeline locking.",
+                step5H: "Kickoff & Build",
+                step5P: "Execution of physical construction and system training.",
+                badgeFinal: "Final Step",
+                section2Title: "02. Investment Matrix",
+                section2Desc: "Determining service valuation based on development scale.",
+                labelStartFrom: "Start From",
+                scaleInfoA: "Start from 10 Food + 10 Bev • 100m²",
+                scaleInfoB: "Start from 15 Food + 15 Bev • 100-200m²",
+                scaleInfoFull: "Custom Products • >200m²",
+                labelFullPkg: "Scale C (Full Package)",
+                chartEfficiencyTitle: "Time-to-Market Efficiency",
+                chartEfficiencySub: "Preparation Duration to Grand Opening (Weeks)",
+                quoteEfficiency: '"This protocol cuts trial-and-error time by up to 60%. With a structured knowledge transfer curriculum, business owners avoid financial losses due to wrong asset purchases or operational failures in the first month."',
+                pilarTitle: 'Core Pillars of <br/><span class="text-brand-orange italic">Development.</span>',
+                pilarDesc1: "Recipe Engineering & Quality Standards.",
+                pilarH2: "Operational & HR (25%)",
+                pilarDesc2: "Recruitment & Competency Training.",
+                pilarH3: "Bar & Kitchen Tools (20%)",
+                pilarDesc3: "Kitchen Tools & Equipment Audit.",
+                pilarH4: "Spatial Design (25%)",
+                pilarDesc4: "Workflow & Ergonomic Layout Planning.",
+                pilarH5: "Systems & Legal (5%)",
+                pilarDesc5: "SOP, Compliance & Opening Standards.",
+                thirdpartyTitle: 'Third Party <span class="text-red-500 not-italic">(Not Incl.)</span>',
+                thirdpartySub: "External Costs & Third Party Vendors",
+                thirdpartyNote: "*All third party costs are managed transparently by the client directly to relevant vendors. Braindev acts as supervisor for best vendor selection.",
+                chartValueTitle: "Capital Value Protection",
+                chartValueSub: "Service Fee vs Protected Asset & Capital Value",
+                statClients: "Happy Clients",
+                statTrained: "Barista Trained",
+                statMenu: "Signature Menus",
+                footerTagline: "Safe Investment, Measured Business.",
+                btnContact: "Contact Braindev.",
+                thirdpartyList: [
+                    { name: "Branding (Logo & Visual)", vendor: "Designer" },
+                    { name: "Civil/Interior Work", vendor: "Vendor" },
+                    { name: "Machinery & Equipment", vendor: "Direct" },
+                    { name: "Initial Raw Materials", vendor: "Supplier" },
+                    { name: "Legality & Permits", vendor: "OSS/Notary" },
+                    { name: "Land Lease & Deposit", vendor: "Landlord" },
+                    { name: "Marketing Ads Budget", vendor: "Media" }
+                ],
+                chartLabels: {
+                    efficiency: ['Start', 'Survey', 'Concept', 'Build', 'Opening'],
+                    matrix: ['Scale A', 'Scale B', 'Scale C']
+                }
+            }
+        };
+
+        let currentLang = 'id';
+        let charts = {};
+
+        function updateUI(lang) {
+            const t = translations[lang];
+            
+            document.getElementById('label-framework').textContent = t.labelFramework;
+            document.getElementById('main-title').innerHTML = t.mainTitle;
+            document.getElementById('main-desc').textContent = t.mainDesc;
+            document.getElementById('section1-title').textContent = t.section1Title;
+            document.getElementById('step1-h').textContent = t.step1H;
+            document.getElementById('step1-p').textContent = t.step1P;
+            document.getElementById('step2-h').textContent = t.step2H;
+            document.getElementById('step2-p').textContent = t.step2P;
+            document.getElementById('step3-h').textContent = t.step3H;
+            document.getElementById('step3-p').textContent = t.step3P;
+            document.getElementById('step4-h').textContent = t.step4H;
+            document.getElementById('step4-p').textContent = t.step4P;
+            document.getElementById('step5-h').textContent = t.step5H;
+            document.getElementById('step5-p').textContent = t.step5P;
+            document.getElementById('badge-final').textContent = t.badgeFinal;
+            
+            document.getElementById('section2-title').textContent = t.section2Title;
+            document.getElementById('section2-desc').textContent = t.section2Desc;
+            document.querySelectorAll('.label-start-from').forEach(el => el.textContent = t.labelStartFrom);
+            document.querySelector('.scale-info-a').textContent = t.scaleInfoA;
+            document.querySelector('.scale-info-b').textContent = t.scaleInfoB;
+            document.querySelector('.scale-info-full').textContent = t.scaleInfoFull;
+            document.getElementById('label-fullpkg').textContent = t.labelFullPkg;
+            
+            document.getElementById('chart-efficiency-title').textContent = t.chartEfficiencyTitle;
+            document.getElementById('chart-efficiency-sub').textContent = t.chartEfficiencySub;
+            document.getElementById('quote-efficiency').textContent = t.quoteEfficiency;
+            
+            document.getElementById('pilar-title').innerHTML = t.pilarTitle;
+            document.getElementById('pilar-desc1').textContent = t.pilarDesc1;
+            document.getElementById('pilar-h2').textContent = t.pilarH2;
+            document.getElementById('pilar-desc2').textContent = t.pilarDesc2;
+            document.getElementById('pilar-h3').textContent = t.pilarH3;
+            document.getElementById('pilar-desc3').textContent = t.pilarDesc3;
+            document.getElementById('pilar-h4').textContent = t.pilarH4;
+            document.getElementById('pilar-desc4').textContent = t.pilarDesc4;
+            document.getElementById('pilar-h5').textContent = t.pilarH5;
+            document.getElementById('pilar-desc5').textContent = t.pilarDesc5;
+            
+            document.getElementById('thirdparty-title').innerHTML = t.thirdpartyTitle;
+            document.getElementById('thirdparty-sub').textContent = t.thirdpartySub;
+            document.getElementById('thirdparty-note').textContent = t.thirdpartyNote;
+            
+            document.getElementById('chart-value-title').textContent = t.chartValueTitle;
+            document.getElementById('chart-value-sub').textContent = t.chartValueSub;
+            document.getElementById('stat-clients').textContent = t.statClients;
+            document.getElementById('stat-trained').textContent = t.statTrained;
+            document.getElementById('stat-menu').textContent = t.statMenu;
+            
+            document.getElementById('footer-tagline').textContent = t.footerTagline;
+            document.getElementById('btn-contact').textContent = t.btnContact;
+
+            const listContainer = document.getElementById('thirdparty-list');
+            listContainer.innerHTML = '';
+            t.thirdpartyList.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = `flex items-center justify-between ${index === t.thirdpartyList.length - 1 ? '' : 'border-b border-gray-50 pb-2'}`;
+                div.innerHTML = `
+                    <span class="text-[11px] font-bold text-gray-700">${item.name}</span>
+                    <span class="text-[10px] font-black text-brand-orange uppercase">${item.vendor}</span>
+                `;
+                listContainer.appendChild(div);
+            });
+
+            if(charts.efficiency) {
+                charts.efficiency.data.labels = t.chartLabels.efficiency;
+                charts.efficiency.update();
+            }
+            if(charts.value) {
+                charts.value.data.labels = t.chartLabels.matrix;
+                charts.value.update();
+            }
+            if(charts.scope) {
+                charts.scope.update();
+            }
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const btnId = document.getElementById('lang-id');
+            const btnEn = document.getElementById('lang-en');
+            
+            if(lang === 'id') {
+                btnId.classList.add('active', 'bg-white', 'text-brand-blue');
+                btnId.classList.remove('text-gray-400');
+                btnEn.classList.remove('active', 'bg-white', 'text-brand-blue');
+                btnEn.classList.add('text-gray-400');
+            } else {
+                btnEn.classList.add('active', 'bg-white', 'text-brand-blue');
+                btnEn.classList.remove('text-gray-400');
+                btnId.classList.remove('active', 'bg-white', 'text-brand-blue');
+                btnId.classList.add('text-gray-400');
+            }
+            
+            updateUI(lang);
+        }
+
+        // WhatsApp Direct Link Function
+        function openWA() {
+            const phoneNumber = "6289503969086";
+            const message = "Halo Braindev, saya ingin konsultasi mengenai pengembangan bisnis F&B saya.";
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.location.href = url;
+        }
+
         const centerTextPlugin = {
             id: 'centerText',
             afterDraw(chart) {
@@ -437,24 +675,77 @@ PLAN SUMMARY:
                     ctx.save();
                     const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                     ctx.font = '800 24px Plus Jakarta Sans';
-                    ctx.fillStyle = '#0F172A';
+                    ctx.fillStyle = '#020617';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText(total + '%', left + width / 2, top + height / 2 - 5);
                     ctx.font = '700 8px Plus Jakarta Sans';
                     ctx.fillStyle = '#94A3B8';
-                    ctx.fillText('TOTAL SCOPE', left + width / 2, top + height / 2 + 15);
+                    ctx.fillText(currentLang === 'id' ? 'CAKUPAN TOTAL' : 'TOTAL SCOPE', left + width / 2, top + height / 2 + 15);
                     ctx.restore();
                 }
             }
         };
 
-        const startRolling = () => {
+        const initCharts = () => {
+            const t = translations[currentLang];
+            const ctxTime = document.getElementById('timeEfficiencyChart').getContext('2d');
+            charts.efficiency = new Chart(ctxTime, {
+                type: 'line',
+                data: {
+                    labels: t.chartLabels.efficiency,
+                    datasets: [
+                        { label: 'Normal', data: [0, 4, 10, 24, 30], borderColor: '#E2E8F0', borderDash: [5, 5], tension: 0.3 },
+                        { label: 'Braindev', data: [0, 1, 3, 10, 12], borderColor: '#ea580c', backgroundColor: 'rgba(234, 88, 12, 0.1)', fill: true, tension: 0.3, pointBackgroundColor: '#ea580c' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const ctxValue = document.getElementById('valueComparisonChart').getContext('2d');
+            charts.value = new Chart(ctxValue, {
+                type: 'bar',
+                data: {
+                    labels: t.chartLabels.matrix,
+                    datasets: [
+                        { label: 'Service Fee', data: [50, 65, 85], backgroundColor: '#020617', borderRadius: 4, barThickness: 24 },
+                        { label: 'Value Protected', data: [150, 210, 350], backgroundColor: '#ea580c', borderRadius: 4, barThickness: 24 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { display: true }, ticks: { font: { size: 9 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 10, weight: '900' } } }
+                    }
+                }
+            });
+
+            const ctxScope = document.getElementById('scopeChart').getContext('2d');
+            charts.scope = new Chart(ctxScope, {
+                type: 'doughnut',
+                plugins: [centerTextPlugin],
+                data: {
+                    labels: ['Product/HPP', 'Ops/SDM', 'Alat Bar & Kitchen', 'Desain Spasial', 'Sistem & Legal'],
+                    datasets: [{
+                        data: [25, 25, 20, 25, 5],
+                        backgroundColor: ['#ea580c', '#020617', '#f97316', '#1e293b', '#cbd5e1'],
+                        borderWidth: 8,
+                        borderColor: '#f8fafc'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false } } }
+            });
+        };
+
+        const startAnimations = () => {
             const counters = document.querySelectorAll('.rolling-number');
             counters.forEach(counter => {
                 const target = +counter.getAttribute('data-target');
                 const updateCount = () => {
-                    const count = +counter.innerText;
+                    const count = +counter.innerText.replace('+', '');
                     const speed = target / 50;
                     if (count < target) {
                         counter.innerText = Math.ceil(count + speed);
@@ -465,108 +756,18 @@ PLAN SUMMARY:
                 };
                 updateCount();
             });
+
+            setTimeout(() => {
+                const fill = document.getElementById('progress-fill');
+                if (fill) fill.style.width = '80%';
+            }, 500);
         };
 
         window.onload = () => {
-            startRolling();
+            updateUI('id');
+            initCharts();
+            startAnimations();
         };
-
-        // 2. Value Comparison Chart
-        const ctxValue = document.getElementById('valueComparisonChart').getContext('2d');
-        new Chart(ctxValue, {
-            type: 'bar',
-            data: {
-                labels: ['Scale A', 'Scale B', 'Full Package'],
-                datasets: [
-                    {
-                        label: 'Service Fee',
-                        data: [50, 65, 85],
-                        backgroundColor: '#0F172A',
-                        borderRadius: 4,
-                        barThickness: 24
-                    },
-                    {
-                        label: 'Value Protected',
-                        data: [150, 210, 350],
-                        backgroundColor: '#F97316',
-                        borderRadius: 4,
-                        barThickness: 24
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { display: true }, ticks: { font: { size: 9 } } },
-                    x: { grid: { display: false }, ticks: { font: { size: 10, weight: '900' } } }
-                }
-            }
-        });
-
-        // 3. Time Efficiency Chart
-        const ctxTime = document.getElementById('timeEfficiencyChart').getContext('2d');
-        new Chart(ctxTime, {
-            type: 'line',
-            data: {
-                labels: ['Start', 'Survey', 'Concept', 'Build', 'Opening'],
-                datasets: [
-                    {
-                        label: 'Tanpa Braindev',
-                        data: [0, 4, 10, 24, 30],
-                        borderColor: '#E2E8F0',
-                        borderDash: [5, 5],
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Dengan Braindev',
-                        data: [0, 1, 3, 10, 12],
-                        borderColor: '#F97316',
-                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { 
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        callbacks: {
-                            afterLabel: function() {
-                                return "Knowledge-driven execution";
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // 4. Scope Doughnut
-        const ctxScope = document.getElementById('scopeChart').getContext('2d');
-        new Chart(ctxScope, {
-            type: 'doughnut',
-            plugins: [centerTextPlugin],
-            data: {
-                labels: ['Product/HPP', 'Ops/SDM', 'Asset/Tech', 'Spatial', 'Systems'],
-                datasets: [{
-                    data: [25, 25, 20, 15, 15],
-                    backgroundColor: ['#F97316', '#0F172A', '#FB923C', '#334155', '#E2E8F0'],
-                    borderWidth: 8,
-                    borderColor: '#F9FAFB'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '75%',
-                plugins: { legend: { display: false } }
-            }
-        });
     </script>
 </body>
 </html>
